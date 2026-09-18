@@ -149,10 +149,15 @@
     <details style="margin-bottom:10px">
       <summary style="cursor:pointer;color:var(--muted);font-size:0.85em">Comment récupérer mon token ?</summary>
       <div class="status-msg" style="margin-top:8px;line-height:1.6">
-        1. Connecte-toi normalement sur <strong>mpg.football</strong> dans ce navigateur.<br>
-        2. Crée un favori/signet sur n'importe quelle page, puis remplace son adresse par le code ci-dessous (colle-le en entier, il commence par "javascript:").<br>
-        3. Retourne sur mpg.football (toujours connecté) et ouvre ce favori — une fenêtre affiche ton token, copie-le.<br>
-        4. Colle-le dans le champ plus bas et clique "Enregistrer".
+        <strong style="color:var(--text)">⚠️ Sur téléphone, se connecter sur mpg.football ouvre souvent directement l'appli MPG</strong> (le navigateur ne garde alors jamais la page web en mémoire — le favori ne trouvera rien). Deux solutions :
+        <br><br>
+        <strong>Option A — depuis un ordinateur (le plus fiable)</strong> :<br>
+        1. Connecte-toi sur <strong>mpg.football</strong> dans un navigateur d'ordinateur (pas de risque d'ouverture d'appli).<br>
+        2. Crée un favori sur n'importe quelle page, puis remplace son adresse par le code ci-dessous (colle-le en entier, il commence par "javascript:").<br>
+        3. Retourne sur mpg.football (toujours connecté) et clique ce favori — une fenêtre affiche ton token, copie-le.<br>
+        4. Transmets-toi ce texte jusqu'à ton téléphone (note, message à toi-même…), colle-le dans le champ plus bas et clique "Enregistrer".
+        <br><br>
+        <strong>Option B — depuis le téléphone quand même</strong> : avant de te connecter, ouvre mpg.football dans un onglet <strong>navigation privée</strong> (souvent ça empêche l'ouverture automatique de l'appli), ou repère un bouton "Continuer dans le navigateur"/"Plus tard" si le site en propose un au lieu de le laisser basculer seul. Puis suis les étapes 2 à 4 ci-dessus depuis ce même onglet.
         <div style="background:var(--card-alt);border-radius:6px;padding:8px;margin-top:8px;font-size:0.7em;word-break:break-all;user-select:all;font-family:monospace">javascript:(function(){for(var i=0;i&lt;localStorage.length;i++){var k=localStorage.key(i);if(k&amp;&amp;k.indexOf('@@auth0spajs@@')===0){try{var v=JSON.parse(localStorage.getItem(k));var t=v&amp;&amp;v.body&amp;&amp;v.body.access_token;if(t){prompt('Ton token MPG (copie-le) :',t);return;}}catch(e){}}}alert('Token introuvable. Es-tu connecte sur mpg.football ?');})();</div>
       </div>
     </details>
