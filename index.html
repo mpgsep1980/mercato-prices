@@ -523,19 +523,34 @@ document.getElementById('player-list').addEventListener('click', (e) => {
   if (row) openDetail(row.dataset.id, row.dataset.name);
 });
 
-// Detail par division : deja embarque dans allPlayers/le cache "myteam" n'en
-// a pas -- lu directement en memoire, pas d'appel reseau supplementaire
-// (contrairement a la version serveur local, /api/price_detail).
+// Detail par division : cherche d'abord dans allPlayers (liste "Tous"),
+// sinon dans priceCache[ligue] (donnees marche deja chargees pour "Mon
+// equipe", voir loadMyTeamLive/fetchLeaguePlayers) -- corrige le
+// 2026-09-18 : cliquer un joueur dans "Mon equipe" ne cherchait qu'
+// allPlayers, jamais rempli sur cet onglet, donc "pas de detail
+// disponible" systematique alors que la donnee etait deja en memoire.
+// Lu directement, pas d'appel reseau supplementaire (contrairement a la
+// version serveur local, /api/price_detail).
+function findPlayerForDetail(playerId) {
+  const fromAll = allPlayers.find((p) => p.id === playerId);
+  if (fromAll) return fromAll;
+  const ligue = document.getElementById('ligue').value;
+  if (ligue && priceCache[ligue]) {
+    return priceCache[ligue].find((p) => p.id === playerId);
+  }
+  return undefined;
+}
+
 function openDetail(playerId, playerName) {
   document.getElementById('detail-name').textContent = playerName;
   document.getElementById('detail-overlay').classList.add('open');
   const body = document.getElementById('detail-body');
   const globalEl = document.getElementById('detail-global');
 
-  const fromList = allPlayers.find((p) => p.id === playerId);
+  const fromList = findPlayerForDetail(playerId);
   if (!fromList) {
     globalEl.textContent = '';
-    body.innerHTML = '<div class="empty">Pas de détail disponible pour "Mon équipe" (voir l\'onglet "Tous" pour ce joueur).</div>';
+    body.innerHTML = '<div class="empty">Pas de détail disponible pour ce joueur (absent du championnat actuellement sélectionné).</div>';
     return;
   }
   const ligue = document.getElementById('ligue').value;
