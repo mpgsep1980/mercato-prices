@@ -448,7 +448,14 @@ async function loadMyTeamLive(ligue) {
   const list = document.getElementById('player-list');
   const championshipId = CHAMPIONSHIP_ID_BY_LEAGUE[ligue];
   try {
-    const headers = { Authorization: myToken };
+    // L'appli MPG envoie toujours son token avec le prefixe "Bearer "
+    // (verifie dans son propre code : s.headers.Authorization = `Bearer
+    // ${token}`) -- corrige le 2026-09-18 (401 systematique sans ce
+    // prefixe, meme avec un token valide). defensif : n'ajoute pas le
+    // prefixe s'il est deja present (au cas ou l'utilisateur l'aurait
+    // colle par megarde).
+    const bearerToken = myToken.trim().replace(/^Bearer\s+/i, '');
+    const headers = { Authorization: `Bearer ${bearerToken}` };
     const summaryRes = await fetch(
       'https://api.mpg.football/user-players-lists-summary?offset=0&limit=30&showPlayers=false',
       { headers },
